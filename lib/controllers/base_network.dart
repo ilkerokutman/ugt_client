@@ -41,6 +41,11 @@ class UgtBaseNetwork {
 
   static Future<Dio> _getDio() async {
     Dio dio = Dio();
+    dio.options.headers["Access-Control-Allow-Origin"] = "*";
+    dio.options.headers["Access-Control-Allow-Credentials"] = true;
+    dio.options.headers["Access-Control-Allow-Headers"] =
+        "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale";
+    dio.options.headers["Access-Control-Allow-Methods"] = "GET, HEAD, POST, OPTIONS";
     dio.options.contentType = "application/json";
     dio.options.followRedirects = false;
     return dio;
@@ -108,9 +113,13 @@ class UgtBaseNetwork {
     };
     var response = await _post(c.URL_USER_SIGNIN, data);
     if (response["success"] == false) return null;
-    var profile = Auth.fromMap(response["data"]);
-    if (profile != null) Box.writeAuth(profile);
-    return profile;
+    var auth = Auth.fromMap(response["data"]);
+    if (auth != null) {
+      await Box.writeAuth(auth);
+      await Box.writeCredentials(credentials);
+      await Box.writeToken(auth.accessToken);
+    }
+    return auth;
   }
   //#endregion
 }

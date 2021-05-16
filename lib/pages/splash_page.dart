@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ugt_client/controllers/base_network.dart';
 
 import '../settings/strings.dart' as s;
+import '../settings/page_codes.dart' as p;
 import '../models/credentials.dart';
 import '../helpers/box.dart';
 
@@ -16,6 +19,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     _credentials = Box.readCredentials();
+    tryLogin();
   }
 
   @override
@@ -29,5 +33,25 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 
-  
+  Future<void> tryLogin() async {
+    if (_credentials == null) {
+      print("move to singin, credentials is empty");
+      gotoSignin();
+      return;
+    }
+    var auth = await UgtBaseNetwork.userSignin(_credentials);
+    if (auth != null) {
+      print("auth: ${auth.accessToken}");
+      print("move to home");
+    } else {
+      print("move to signin");
+      gotoSignin();
+    }
+  }
+
+  Future<void> gotoSignin() async {
+    Future.delayed(Duration.zero, () {
+      Get.offAndToNamed(p.signin);
+    });
+  }
 }
