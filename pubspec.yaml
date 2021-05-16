@@ -1,0 +1,33 @@
+name: ugt_client
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.0
+  get: ^4.1.4
+  get_storage: ^2.0.2
+  dio: ^4.0.0
+  flutter_launcher_icons: ^0.9.0
+  ars_dialog: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# flutter_icons:
+#   image_path_android: "assets/images/fixpack-b2b-app-icon.png"
+#   image_path_ios: "assets/images/fixpack-b2b-app-icon.png"
+#   android: true
+#   ios: true
+
+flutter:
+  uses-material-design: true
