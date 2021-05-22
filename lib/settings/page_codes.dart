@@ -6,3 +6,4 @@ const String signin = "/sign-in";
 const String signout = "/sign-out";
 const String loader = "/loader";
 const String home = "/home";
+const String myProfile = "/my-profile";

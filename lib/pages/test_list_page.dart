@@ -1,0 +1,68 @@
+import 'package:flutter/material.dart';
+import 'package:ugt_client/components/drawer_widget.dart';
+import 'package:ugt_client/models/student.dart';
+
+class TestListPage extends StatefulWidget {
+  @override
+  _TestListPageState createState() => _TestListPageState();
+}
+
+class _TestListPageState extends State<TestListPage> {
+  List<Student> _testItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _populateTestItems();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      drawer: UgtDrawer(),
+      body: SafeArea(
+        child: Container(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 100,
+                  child: Center(
+                    child: Text("filtreler"),
+                  ),
+                  color: Colors.green,
+                ),
+                Container(
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return Container();
+                    },
+                    itemCount: _testItems.length,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _populateTestItems() {
+    List<Student> testItems = <Student>[];
+    testItems.add(Student(
+        department: "dep",
+        entranceDate: "2019",
+        grade: 2,
+        program: "program",
+        status: 1,
+        studentNumber: "123456789",
+        unit: "unit",
+        yearOfBirth: 1990,
+        userId: "abc"));
+    setState(() => _testItems = testItems);
+  }
+}

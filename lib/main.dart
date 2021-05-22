@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ugt_client/pages/my_profile_page.dart';
 
 import './settings/page_codes.dart' as p;
 import './pages/splash_page.dart';
@@ -32,7 +33,8 @@ class _UGTState extends State<UGT> {
       getPages: [
         GetPage(name: p.splash, page: () => SplashPage()),
         GetPage(name: p.signin, page: () => SigninPage()),
-        GetPage(name: p.home, page: () => HomePage())
+        GetPage(name: p.home, page: () => HomePage()),
+        GetPage(name: p.myProfile, page: () => MyProfilePage()),
       ],
       initialRoute: p.splash,
     );

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:ugt_client/components/ugt_menu_item.dart';
 import 'package:ugt_client/components/ugt_menu_label.dart';
 import 'package:ugt_client/helpers/box.dart';
 import 'package:ugt_client/models/auth.dart';
+import '../settings/page_codes.dart' as p;
 
 class UgtDrawer extends StatelessWidget {
   final Auth auth = Box.readAuth();
@@ -42,6 +44,15 @@ class UgtDrawer extends StatelessWidget {
                                 fontSize: 18,
                                 color: Colors.white70,
                               ),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Colors.white54,
+                          ),
+                          onPressed: () {
+                            Get.toNamed(p.myProfile);
+                          },
                         ),
                         leading: InkWell(
                           child: Stack(
@@ -87,23 +98,23 @@ class UgtDrawer extends StatelessWidget {
 
   List<Widget> _adminMenu() {
     return [
-      UgtMenuItemWidget(title: "Ana Sayfa", url: "/home"),
+      UgtMenuItemWidget(title: "Ana Sayfa", url: p.home),
       UgtMenuLabelWidget(title: "Bana Özel"),
       UgtMenuItemWidget(
         title: "Derslerim",
         url: "/my-lectures",
-        icon: Icons.my_library_books,
+        // icon: Icons.my_library_books,
       ),
       UgtMenuItemWidget(
         title: "Öğrencilerim",
         url: "/my-students",
-        icon: FontAwesomeIcons.userGraduate,
+        // icon: FontAwesomeIcons.userGraduate,
       ),
       UgtMenuLabelWidget(title: "Bölüme Özel"),
       UgtMenuItemWidget(
         title: "Dersler",
         url: "/classes",
-        icon: FontAwesomeIcons.userGraduate,
+        // icon: FontAwesomeIcons.userGraduate,
       ),
       UgtMenuItemWidget(
         title: "Öğr.Görevlileri",
@@ -154,11 +165,15 @@ class UgtDrawer extends StatelessWidget {
   List<Widget> _studentMenu() {
     return [
       UgtMenuItemWidget(
-        title: "item 1",
+        title: "Derslerim",
         url: "ignoring",
       ),
       UgtMenuItemWidget(
-        title: "item 2",
+        title: "Görevlerim",
+        url: "ignoring",
+      ),
+      UgtMenuItemWidget(
+        title: "Bulunduğum Gruplar",
         url: "ignoring",
       ),
     ];

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class UgtMenuItemWidget extends StatelessWidget {
   String title;
@@ -19,7 +20,7 @@ class UgtMenuItemWidget extends StatelessWidget {
         ),
         leading: icon != null ? Icon(icon) : null,
         onTap: () {
-          print(url);
+          Get.toNamed(url);
         },
         contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
         horizontalTitleGap: 4,
@@ -27,8 +28,6 @@ class UgtMenuItemWidget extends StatelessWidget {
         enableFeedback: true,
         selected: ModalRoute.of(context).settings.name.contains(url),
         selectedTileColor: Colors.blueGrey[200],
-        
-        
       ),
     );
   }
