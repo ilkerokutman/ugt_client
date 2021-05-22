@@ -46,4 +46,8 @@ class Auth {
         "lecturer": lecturer == null ? null : lecturer.toMap(),
         "student": student == null ? null : student.toMap(),
       };
+
+  bool isAdmin() => this.role == "ADM";
+  bool isLecturer() => this.role == "LEC" || this.role == "ADM";
+  bool isStudent() => this.role == "STU";
 }
