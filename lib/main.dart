@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import './settings/page_codes.dart' as p;
 import './pages/splash_page.dart';
 import './pages/signin_page.dart';
+import './pages/home_page.dart';
 
 void main() async {
   await GetStorage.init();
@@ -31,6 +32,7 @@ class _UGTState extends State<UGT> {
       getPages: [
         GetPage(name: p.splash, page: () => SplashPage()),
         GetPage(name: p.signin, page: () => SigninPage()),
+        GetPage(name: p.home, page: () => HomePage())
       ],
       initialRoute: p.splash,
     );

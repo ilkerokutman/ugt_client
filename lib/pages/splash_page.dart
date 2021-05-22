@@ -43,15 +43,25 @@ class _SplashPageState extends State<SplashPage> {
     if (auth != null) {
       print("auth: ${auth.accessToken}");
       print("move to home");
+      gotoHome();
     } else {
       print("move to signin");
       gotoSignin();
     }
   }
 
+
+
   Future<void> gotoSignin() async {
     Future.delayed(Duration.zero, () {
       Get.offAndToNamed(p.signin);
+    });
+  }
+
+
+  Future<void> gotoHome() async {
+    Future.delayed(Duration.zero, () {
+      Get.offAndToNamed(p.home);
     });
   }
 }

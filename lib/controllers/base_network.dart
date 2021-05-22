@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:ugt_client/models/lecturer.dart';
 import '../helpers/box.dart';
 import '../models/credentials.dart';
 import '../models/auth.dart';
@@ -115,11 +116,39 @@ class UgtBaseNetwork {
     if (response["success"] == false) return null;
     var auth = Auth.fromMap(response["data"]);
     if (auth != null) {
-      await Box.writeAuth(auth);
       await Box.writeCredentials(credentials);
       await Box.writeToken(auth.accessToken);
+
+      if ((auth.role == "LEC" || auth.role == "ADM") && auth.profileId != null) {
+        var lecturer = await getLecturer(auth.profileId);
+        auth.lecturer = lecturer;
+      }
+
+      await Box.writeAuth(auth);
     }
     return auth;
+  }
+  //#endregion
+
+  //#region LECTURER
+  static Future<Lecturer> getLecturer(String id) async {
+    Map<String, dynamic> data = {"id": id};
+    var response = await _postWithToken(c.URL_LECTURER_GET, data);
+    if (response["success"] == false) return null;
+    if (response["data"] is List && response["data"].length > 0) {
+      var lecturer = Lecturer.fromMap(response["data"][0]);
+      return lecturer;
+    }
+    var lecturer = Lecturer.fromMap(response["data"]);
+    return lecturer;
+  }
+
+  static Future<Lecturer> getLecturerByUserId(String id) async {
+    Map<String, dynamic> data = {"id": id};
+    var response = await _postWithToken(c.URL_LECTURER_GET_BY_USER, data);
+    if (response["success"] == false) return null;
+    var lecturer = Lecturer.fromMap(response["data"]);
+    return lecturer;
   }
   //#endregion
 }
