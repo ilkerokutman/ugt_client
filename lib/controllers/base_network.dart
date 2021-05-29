@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:ugt_client/models/lecture.dart';
 import 'package:ugt_client/models/lecturer.dart';
 import '../helpers/box.dart';
 import '../models/credentials.dart';
@@ -149,6 +150,18 @@ class UgtBaseNetwork {
     if (response["success"] == false) return null;
     var lecturer = Lecturer.fromMap(response["data"]);
     return lecturer;
+  }
+  //#endregion
+
+  //#region LECTURE
+  static Future<List<Lecture>> listLectures() async {
+    var response = await _postWithToken(c.URL_LECTURE_LIST, {});
+    if (response["success"] == false) return <Lecture>[];
+    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
+      var list = List<Lecture>.from(response["data"].map((x) => Lecture.fromMap(x)));
+      return list;
+    }
+    return <Lecture>[];
   }
   //#endregion
 }

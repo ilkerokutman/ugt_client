@@ -113,7 +113,7 @@ class UgtDrawer extends StatelessWidget {
       UgtMenuLabelWidget(title: "Bölüme Özel"),
       UgtMenuItemWidget(
         title: "Dersler",
-        url: "/classes",
+        url: "/lectures",
         // icon: FontAwesomeIcons.userGraduate,
       ),
       UgtMenuItemWidget(
@@ -136,7 +136,7 @@ class UgtDrawer extends StatelessWidget {
       ),
       UgtMenuItemWidget(
         title: "Yöneticiler",
-        url: "/manage-admins",
+        url: p.manageAdminList,
       ),
       UgtMenuItemWidget(
         title: "Fakülteler",
