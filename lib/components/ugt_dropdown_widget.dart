@@ -5,9 +5,9 @@ class UgtDropdownWidget extends StatelessWidget {
   final String subtitle;
   final Function picker;
   UgtDropdownWidget({
-    this.title,
+    required this.title,
     this.subtitle = 'Seçilmedi',
-    this.picker,
+    required this.picker,
   });
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,9 @@ class UgtDropdownWidget extends StatelessWidget {
           subtitle: Text(subtitle),
           trailing: IconButton(
             icon: Icon(Icons.arrow_drop_down),
-            onPressed: picker,
+            onPressed: () {
+              picker();
+            },
           ),
         ),
       ),

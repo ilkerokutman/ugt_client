@@ -9,7 +9,7 @@ class ProgramEditPage extends StatefulWidget {
 }
 
 class _ProgramEditPageState extends State<ProgramEditPage> {
-  Auth auth = Box.readAuth();
+  Auth? auth = Box.readAuth();
   bool _isLoading = false;
   // id olmali
 
@@ -17,7 +17,7 @@ class _ProgramEditPageState extends State<ProgramEditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Program ve Bolum Duzenleme"),
+        title: Text("Program ve Bölüm Düzenle"),
       ),
       drawer: UgtDrawer(),
       body: SafeArea(

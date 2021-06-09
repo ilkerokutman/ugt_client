@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:ugt_client/models/faculty.dart';
 import 'package:ugt_client/models/lecture.dart';
 import 'package:ugt_client/models/lecturer.dart';
 import '../helpers/box.dart';
@@ -108,7 +109,7 @@ class UgtBaseNetwork {
   //#endregion
 
   //#region USER
-  static Future<Auth> userSignin(Credentials credentials) async {
+  static Future<Auth?> userSignin(Credentials credentials) async {
     Map<String, dynamic> data = {
       "email": credentials.username,
       "password": credentials.password,
@@ -116,12 +117,12 @@ class UgtBaseNetwork {
     var response = await _post(c.URL_USER_SIGNIN, data);
     if (response["success"] == false) return null;
     var auth = Auth.fromMap(response["data"]);
-    if (auth != null) {
+    if (auth.accessToken != null) {
       await Box.writeCredentials(credentials);
-      await Box.writeToken(auth.accessToken);
+      await Box.writeToken(auth.accessToken ?? "");
 
       if ((auth.role == "LEC" || auth.role == "ADM") && auth.profileId != null) {
-        var lecturer = await getLecturer(auth.profileId);
+        var lecturer = await getLecturer(auth.profileId ?? "");
         auth.lecturer = lecturer;
       }
 
@@ -132,7 +133,7 @@ class UgtBaseNetwork {
   //#endregion
 
   //#region LECTURER
-  static Future<Lecturer> getLecturer(String id) async {
+  static Future<Lecturer?> getLecturer(String id) async {
     Map<String, dynamic> data = {"id": id};
     var response = await _postWithToken(c.URL_LECTURER_GET, data);
     if (response["success"] == false) return null;
@@ -144,7 +145,7 @@ class UgtBaseNetwork {
     return lecturer;
   }
 
-  static Future<Lecturer> getLecturerByUserId(String id) async {
+  static Future<Lecturer?> getLecturerByUserId(String id) async {
     Map<String, dynamic> data = {"id": id};
     var response = await _postWithToken(c.URL_LECTURER_GET_BY_USER, data);
     if (response["success"] == false) return null;
@@ -162,6 +163,45 @@ class UgtBaseNetwork {
       return list;
     }
     return <Lecture>[];
+  }
+  //#endregion
+
+  //#region FACULTY
+  static Future<List<Faculty>> listFaculties() async {
+    var response = await _postWithToken(c.URL_FACULTY_LIST, {});
+    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
+      var list = List<Faculty>.from(response["data"].map((x) => Faculty.fromMap(x)));
+      return list;
+    }
+    return <Faculty>[];
+  }
+
+  static Future<Faculty?> getFaculty(String id) async {
+    var response = await _postWithToken(c.URL_FACULTY_GET, {"id": id});
+    if (response["data"] != null) {
+      var faculty = Faculty.fromMap(response["data"][0]);
+      return faculty;
+    }
+    return null;
+  }
+
+  static Future<void> deleteFaculty(String id) async {
+    await _postWithToken(c.URL_FACULTY_DELETE, {"id": id});
+  }
+
+  static Future<String> addFaculty({required String name}) async {
+    var response = await _postWithToken(c.URL_FACULTY_ADD, {"name": name});
+    return response["data"][0]["data"];
+  }
+
+  static Future<Faculty?> saveFaculty(Faculty faculty) async {
+    print("saving faculty: ${faculty.toMap().toString()}");
+    var response = await _postWithToken(c.URL_FACULTY_SAVE, faculty.toMap());
+    if (response["data"] != null) {
+      var faculty = Faculty.fromMap(response["data"][0]);
+      return faculty;
+    }
+    return null;
   }
   //#endregion
 }

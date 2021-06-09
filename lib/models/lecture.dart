@@ -1,21 +1,21 @@
 class Lecture {
-  String id;
-  String name;
-  int statusId;
-  int listOrder;
-  String createdOn;
-  String createdBy;
-  String modifiedOn;
-  String modifiedBy;
-  String description;
-  String code;
-  int credits;
-  String lecturer;
-  String department;
-  String unit;
-  String program;
-  int semester;
-  int academicYear;
+  String? id;
+  String? name;
+  int? statusId;
+  int? listOrder;
+  String? createdOn;
+  String? createdBy;
+  String? modifiedOn;
+  String? modifiedBy;
+  String? description;
+  String? code;
+  int? credits;
+  String? lecturer;
+  String? department;
+  String? unit;
+  String? program;
+  int? semester;
+  int? academicYear;
   Lecture({
     this.id,
     this.name,

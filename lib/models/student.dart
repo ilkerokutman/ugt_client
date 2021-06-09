@@ -1,16 +1,16 @@
 class Student {
-  String userId;
-  String studentNumber;
-  String entranceDate;
-  String unit;
-  String department;
-  String program;
-  int yearOfBirth;
-  String pictureUrl;
-  int grade;
-  String createdOn;
-  String modifiedOn;
-  int status;
+  String? userId;
+  String? studentNumber;
+  String? entranceDate;
+  String? unit;
+  String? department;
+  String? program;
+  int? yearOfBirth;
+  String? pictureUrl;
+  int? grade;
+  String? createdOn;
+  String? modifiedOn;
+  int? status;
 
   Student({
     this.userId,
@@ -28,7 +28,6 @@ class Student {
   });
 
   factory Student.fromMap(Map<String, dynamic> json) {
-    if (json == null) return null;
     return Student(
       userId: json["userId"],
       studentNumber: json["studentNumber"],

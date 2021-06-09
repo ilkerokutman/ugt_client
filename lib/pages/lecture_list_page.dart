@@ -15,9 +15,9 @@ class LectureListPage extends StatefulWidget {
 }
 
 class _LectureListPageState extends State<LectureListPage> {
-  Auth auth = Box.readAuth();
+  Auth? auth = Box.readAuth();
   bool _isLoading = false;
-  Future _futureLectureList;
+  late Future _futureLectureList;
   // id olmali
 
   @override
@@ -50,8 +50,20 @@ class _LectureListPageState extends State<LectureListPage> {
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.done:
-                  if (snapshot.hasData && snapshot.data != null && snapshot.data.length > 0) {
-                    return _lectureListScreen(snapshot.data);
+                  if (snapshot.hasData && snapshot.data != null) {
+                    List<Lecture> _data = snapshot.data as List<Lecture>;
+                    if (_data.length > 0) {
+                      return _lectureListScreen(_data);
+                    } else {
+                      return Container(
+                        child: Column(
+                          children: [
+                            _lectureFilters(),
+                            Expanded(child: EmptyListWidget(subject: 'Ders')),
+                          ],
+                        ),
+                      );
+                    }
                   } else {
                     return Container(
                       child: Column(
@@ -111,10 +123,10 @@ class _LectureListPageState extends State<LectureListPage> {
 
   Widget _lectureItem(Lecture lecture) {
     return ListTile(
-      title: Text(lecture.name),
+      title: Text(lecture.name ?? ""),
       subtitle: Text("${lecture.code} ${lecture.academicYear}"),
       onTap: () {
-        _openLecture(lecture.id);
+        _openLecture(lecture.id ?? "");
       },
     );
   }

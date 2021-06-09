@@ -8,7 +8,7 @@ import 'package:ugt_client/models/auth.dart';
 import '../settings/page_codes.dart' as p;
 
 class UgtDrawer extends StatelessWidget {
-  final Auth auth = Box.readAuth();
+  final Auth? auth = Box.readAuth();
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +31,16 @@ class UgtDrawer extends StatelessWidget {
                     children: [
                       ListTile(
                         title: Text(
-                          "${auth.fullName}",
-                          style: Theme.of(context).textTheme.bodyText2.copyWith(
+                          "${auth!.fullName}",
+                          style: Theme.of(context).textTheme.bodyText2!.copyWith(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
                               ),
                         ),
                         subtitle: Text(
-                          "${auth.isLecturer() ? auth.lecturer.title : auth.student.studentNumber}",
-                          style: Theme.of(context).textTheme.bodyText2.copyWith(
+                          "${auth!.isLecturer() ? auth!.lecturer!.title : auth!.student!.studentNumber}",
+                          style: Theme.of(context).textTheme.bodyText2!.copyWith(
                                 fontSize: 18,
                                 color: Colors.white70,
                               ),
@@ -73,13 +73,13 @@ class UgtDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            auth.isAdmin()
+            auth!.isAdmin()
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: _adminMenu(),
                   )
-                : auth.isLecturer()
+                : auth!.isLecturer()
                     ? Column(
                         children: _lecturerMenu(),
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,53 +102,60 @@ class UgtDrawer extends StatelessWidget {
       UgtMenuLabelWidget(title: "Bana Özel"),
       UgtMenuItemWidget(
         title: "Derslerim",
-        url: "/my-lectures",
+        url: p.myLectures,
         // icon: Icons.my_library_books,
       ),
       UgtMenuItemWidget(
         title: "Öğrencilerim",
-        url: "/my-students",
+        url: p.myStudents,
         // icon: FontAwesomeIcons.userGraduate,
       ),
       UgtMenuLabelWidget(title: "Bölüme Özel"),
       UgtMenuItemWidget(
-        title: "Dersler",
-        url: "/lectures",
+        title: "Bölüm Dersleri",
+        url: p.ourLectures,
         // icon: FontAwesomeIcons.userGraduate,
       ),
       UgtMenuItemWidget(
-        title: "Öğr.Görevlileri",
-        url: "/lecturers",
+        title: "Bölüm Öğr.Görevlileri",
+        url: p.ourLecturers,
       ),
-      UgtMenuItemWidget(title: "Öğrenciler", url: "/students"),
+      UgtMenuItemWidget(
+        title: "Bölüm Öğrencileri",
+        url: p.ourStudents,
+      ),
       UgtMenuItemWidget(
         title: "Görevler",
-        url: "/tasks",
+        url: p.tasks,
       ),
       UgtMenuItemWidget(
         title: "Görev Havuzu",
-        url: "/task-pool",
+        url: p.taskPool,
       ),
       UgtMenuLabelWidget(title: "Tanımlamalar"),
       UgtMenuItemWidget(
-        title: "Öğr.Görevlileri",
-        url: "/manage-lecturers",
+        title: "Öğrenci Lıstesi",
+        url: p.students,
+      ),
+      UgtMenuItemWidget(
+        title: "Öğr.Görevlileri Listesi",
+        url: p.lecturers,
       ),
       UgtMenuItemWidget(
         title: "Yöneticiler",
-        url: p.manageAdminList,
+        url: p.admins,
       ),
       UgtMenuItemWidget(
         title: "Fakülteler",
-        url: "/manage-faculties",
+        url: p.faculties,
       ),
       UgtMenuItemWidget(
         title: "Departmanlar",
-        url: "/manage-departments",
+        url: p.departments,
       ),
       UgtMenuItemWidget(
         title: "Programlar",
-        url: "/manage-programs",
+        url: p.programs,
       ),
     ];
   }

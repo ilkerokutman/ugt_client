@@ -3,12 +3,12 @@ import 'package:ugt_client/components/drawer_widget.dart';
 import 'package:ugt_client/helpers/box.dart';
 import 'package:ugt_client/models/auth.dart';
 
-class LecturePage extends StatefulWidget {
+class TaskListPage extends StatefulWidget {
   @override
-  _LecturePageState createState() => _LecturePageState();
+  _TaskListPageState createState() => _TaskListPageState();
 }
 
-class _LecturePageState extends State<LecturePage> {
+class _TaskListPageState extends State<TaskListPage> {
   Auth? auth = Box.readAuth();
   bool _isLoading = false;
   // id olmali
@@ -17,12 +17,12 @@ class _LecturePageState extends State<LecturePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ders Detayı"),
+        title: Text("Görev Listesi"),
       ),
       drawer: UgtDrawer(),
       body: SafeArea(
         child: Container(
-          child: Text("lecture"),
+          child: Text("student list"),
         ),
       ),
     );

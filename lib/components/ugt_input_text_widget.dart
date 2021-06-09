@@ -7,11 +7,11 @@ class UgtInputTextWidget extends StatelessWidget {
   final Function validator;
   final TextEditingController controller;
   UgtInputTextWidget({
-    this.hintText,
-    this.keyboardType,
-    this.onSaved,
-    this.validator,
-    this.controller,
+    required this.hintText,
+    required this.keyboardType,
+    required this.onSaved,
+    required this.validator,
+    required this.controller,
   });
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,12 @@ class UgtInputTextWidget extends StatelessWidget {
                 hintStyle: TextStyle(fontSize: 17, color: Colors.blueGrey),
               ),
               keyboardType: keyboardType,
-              onSaved: onSaved,
-              validator: validator,
+              onSaved: (val) {
+                onSaved(val);
+              },
+              validator: (val) {
+                validator(val);
+              },
               controller: controller,
               enableInteractiveSelection: true,
             ),

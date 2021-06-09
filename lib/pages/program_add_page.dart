@@ -9,7 +9,7 @@ class ProgramAddPage extends StatefulWidget {
 }
 
 class _ProgramAddPageState extends State<ProgramAddPage> {
-  Auth auth = Box.readAuth();
+  Auth? auth = Box.readAuth();
   bool _isLoading = false;
   // id olmali
 
@@ -17,7 +17,7 @@ class _ProgramAddPageState extends State<ProgramAddPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Yeni Program ve Bolum Ekle"),
+        title: Text("Yeni Program ve Bölüm Ekle"),
       ),
       drawer: UgtDrawer(),
       body: SafeArea(

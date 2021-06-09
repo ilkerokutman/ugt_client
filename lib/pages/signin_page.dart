@@ -40,7 +40,7 @@ class _SigninPageState extends State<SigninPage> {
                             });
                           },
                           validator: (value) {
-                            if (value.isEmpty) return "Lütfen eposta adresinizi giriniz";
+                            if (value!.isEmpty) return "Lütfen eposta adresinizi giriniz";
                             return null;
                           },
                         ),
@@ -54,7 +54,7 @@ class _SigninPageState extends State<SigninPage> {
                             });
                           },
                           validator: (value) {
-                            if (value.isEmpty) return "Lütfen şifrenizi giriniz";
+                            if (value!.isEmpty) return "Lütfen şifrenizi giriniz";
                             return null;
                           },
                         ),
@@ -85,11 +85,11 @@ class _SigninPageState extends State<SigninPage> {
     setState(() {
       signinStatus = "";
     });
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return null;
     }
 
-    _formKey.currentState.save();
+    _formKey.currentState!.save();
     setState(() {
       _isLoading = true;
     });

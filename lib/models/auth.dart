@@ -2,14 +2,14 @@ import 'package:ugt_client/models/lecturer.dart';
 import 'package:ugt_client/models/student.dart';
 
 class Auth {
-  String userId;
-  String profileId;
-  String role;
-  String accessToken;
-  String validUntil;
-  String fullName;
-  Lecturer lecturer;
-  Student student;
+  String? userId;
+  String? profileId;
+  String? role;
+  String? accessToken;
+  String? validUntil;
+  String? fullName;
+  Lecturer? lecturer;
+  Student? student;
 
   Auth({
     this.userId,
@@ -23,7 +23,6 @@ class Auth {
   });
 
   factory Auth.fromMap(Map<String, dynamic> json) {
-    if (json == null) return null;
     return Auth(
       userId: json["userId"],
       profileId: json["profileId"],
@@ -43,8 +42,8 @@ class Auth {
         "accessToken": this.accessToken,
         "validUntil": this.validUntil,
         "fullName": this.fullName,
-        "lecturer": lecturer == null ? null : lecturer.toMap(),
-        "student": student == null ? null : student.toMap(),
+        "lecturer": lecturer == null ? null : lecturer!.toMap(),
+        "student": student == null ? null : student!.toMap(),
       };
 
   bool isAdmin() => this.role == "ADM";

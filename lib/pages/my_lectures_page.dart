@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:ugt_client/components/drawer_widget.dart';
 import 'package:ugt_client/helpers/box.dart';
 import 'package:ugt_client/models/auth.dart';
 
-class LecturePage extends StatefulWidget {
+class MyLecturesPage extends StatefulWidget {
   @override
-  _LecturePageState createState() => _LecturePageState();
+  _MyLecturesPageState createState() => _MyLecturesPageState();
 }
 
-class _LecturePageState extends State<LecturePage> {
+class _MyLecturesPageState extends State<MyLecturesPage> {
   Auth? auth = Box.readAuth();
   bool _isLoading = false;
-  // id olmali
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ders Detayı"),
+        title: Text("Derslerim"),
       ),
-      drawer: UgtDrawer(),
       body: SafeArea(
         child: Container(
-          child: Text("lecture"),
+          color: Colors.green,
         ),
       ),
     );

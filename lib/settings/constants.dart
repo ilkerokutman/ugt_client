@@ -29,6 +29,7 @@ const String URL_FACULTY_LIST = "get-faculties";
 const String URL_FACULTY_ADD = "add-faculty";
 const String URL_FACULTY_GET = "get-faculty";
 const String URL_FACULTY_SAVE = "save-faculty";
+const String URL_FACULTY_DELETE = "delete-faculty";
 
 // DIVISION AND PROGRAM
 const String URL_DAP_LIST = "get-division-and-programs";

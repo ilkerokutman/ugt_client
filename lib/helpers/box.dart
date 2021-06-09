@@ -14,7 +14,7 @@ class Box {
     await box.write(keys.credentials, _credentials);
   }
 
-  static Credentials readCredentials() {
+  static Credentials? readCredentials() {
     final box = GetStorage();
     String _credentials = box.read(keys.credentials);
     if (_credentials == null) return null;
@@ -27,7 +27,7 @@ class Box {
     await box.write(keys.auth, _auth);
   }
 
-  static Auth readAuth() {
+  static Auth? readAuth() {
     final box = GetStorage();
     String _auth = box.read(keys.auth);
     if (_auth == null) return null;

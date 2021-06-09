@@ -9,14 +9,14 @@ class ManageAdminListPage extends StatefulWidget {
 }
 
 class _ManageAdminListPageState extends State<ManageAdminListPage> {
-  Auth auth = Box.readAuth();
+  Auth? auth = Box.readAuth();
   bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Yonetici Listesi"),
+        title: Text("Yönetici Listesi"),
       ),
       drawer: UgtDrawer(),
       body: SafeArea(

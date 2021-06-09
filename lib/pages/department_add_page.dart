@@ -9,7 +9,7 @@ class DepartmentAddPage extends StatefulWidget {
 }
 
 class _DepartmentAddPageState extends State<DepartmentAddPage> {
-  Auth auth = Box.readAuth();
+  Auth? auth = Box.readAuth();
   bool _isLoading = false;
   // id olmali
 

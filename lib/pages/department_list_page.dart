@@ -9,7 +9,7 @@ class DepartmentListPage extends StatefulWidget {
 }
 
 class _DepartmentListPageState extends State<DepartmentListPage> {
-  Auth auth = Box.readAuth();
+  Auth? auth = Box.readAuth();
   bool _isLoading = false;
   // id olmali
 
@@ -17,7 +17,7 @@ class _DepartmentListPageState extends State<DepartmentListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Departman Liste"),
+        title: Text("Departman Listesi"),
       ),
       drawer: UgtDrawer(),
       body: SafeArea(

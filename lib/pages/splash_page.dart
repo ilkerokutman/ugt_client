@@ -13,12 +13,12 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  Credentials _credentials;
+  late Credentials _credentials;
 
   @override
   void initState() {
     super.initState();
-    _credentials = Box.readCredentials();
+    _credentials = Box.readCredentials()!;
     tryLogin();
   }
 

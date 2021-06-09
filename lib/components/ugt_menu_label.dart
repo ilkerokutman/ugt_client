@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class UgtMenuLabelWidget extends StatelessWidget {
   final String title;
-  UgtMenuLabelWidget({@required this.title});
+  UgtMenuLabelWidget({required this.title});
   @override
   Widget build(BuildContext context) {
     return Container(

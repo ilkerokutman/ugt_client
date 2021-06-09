@@ -9,7 +9,7 @@ class FacultyPage extends StatefulWidget {
 }
 
 class _FacultyPageState extends State<FacultyPage> {
-  Auth auth = Box.readAuth();
+  Auth? auth = Box.readAuth();
   bool _isLoading = false;
   // id gelmeli
 
@@ -17,7 +17,7 @@ class _FacultyPageState extends State<FacultyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Fakulte"),
+        title: Text("Fakülte Detayı"),
       ),
       drawer: UgtDrawer(),
       body: SafeArea(

@@ -3,26 +3,25 @@ import 'package:ugt_client/components/drawer_widget.dart';
 import 'package:ugt_client/helpers/box.dart';
 import 'package:ugt_client/models/auth.dart';
 
-class LecturePage extends StatefulWidget {
+class ManageAdminEditPage extends StatefulWidget {
   @override
-  _LecturePageState createState() => _LecturePageState();
+  _ManageAdminEditPageState createState() => _ManageAdminEditPageState();
 }
 
-class _LecturePageState extends State<LecturePage> {
+class _ManageAdminEditPageState extends State<ManageAdminEditPage> {
   Auth? auth = Box.readAuth();
   bool _isLoading = false;
-  // id olmali
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ders Detayı"),
+        title: Text("Yönetici Düzenle"),
       ),
       drawer: UgtDrawer(),
       body: SafeArea(
         child: Container(
-          child: Text("lecture"),
+          child: Text("admin list"),
         ),
       ),
     );

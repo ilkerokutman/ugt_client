@@ -12,7 +12,7 @@ class LectureAddPage extends StatefulWidget {
 }
 
 class _LectureAddPageState extends State<LectureAddPage> {
-  Auth auth = Box.readAuth();
+  Auth? auth = Box.readAuth();
   bool _isLoading = false;
   GlobalKey<FormState> _formKey = GlobalKey();
 

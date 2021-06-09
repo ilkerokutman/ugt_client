@@ -1,12 +1,12 @@
 class ProgramAndDivision {
-  String id;
-  String name;
-  int statusId;
-  int listOrder;
-  String createdOn;
-  String createdBy;
-  String modifiedOn;
-  String modifiedBy;
+  String? id;
+  String? name;
+  int? statusId;
+  int? listOrder;
+  String? createdOn;
+  String? createdBy;
+  String? modifiedOn;
+  String? modifiedBy;
   ProgramAndDivision({
     this.id,
     this.name,

@@ -9,7 +9,7 @@ class LecturerListPage extends StatefulWidget {
 }
 
 class _LecturerListPageState extends State<LecturerListPage> {
-  Auth auth = Box.readAuth();
+  Auth? auth = Box.readAuth();
   bool _isLoading = false;
   // id olmali
 
@@ -17,7 +17,7 @@ class _LecturerListPageState extends State<LecturerListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ogretim Gorevlisi Listesi"),
+        title: Text("Öğretim Görevlisi Listesi"),
       ),
       drawer: UgtDrawer(),
       body: SafeArea(

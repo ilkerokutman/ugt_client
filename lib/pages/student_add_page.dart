@@ -9,7 +9,7 @@ class StudentAddPage extends StatefulWidget {
 }
 
 class _StudentAddPageState extends State<StudentAddPage> {
-  Auth auth = Box.readAuth();
+  Auth? auth = Box.readAuth();
   bool _isLoading = false;
   // id olmali
 
@@ -17,7 +17,7 @@ class _StudentAddPageState extends State<StudentAddPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ogrenci Ekle"),
+        title: Text("Öğrenci Ekle"),
       ),
       drawer: UgtDrawer(),
       body: SafeArea(

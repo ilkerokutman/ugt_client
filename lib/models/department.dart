@@ -1,12 +1,12 @@
 class Department {
-  String id;
-  String name;
-  int statusId;
-  int listOrder;
-  String createdOn;
-  String createdBy;
-  String modifiedOn;
-  String modifiedBy;
+  String? id;
+  String? name;
+  int? statusId;
+  int? listOrder;
+  String? createdOn;
+  String? createdBy;
+  String? modifiedOn;
+  String? modifiedBy;
   Department({
     this.id,
     this.name,
