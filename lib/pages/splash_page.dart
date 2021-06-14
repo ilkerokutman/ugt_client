@@ -13,13 +13,19 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  late Credentials _credentials;
+  late Credentials? _credentials;
 
   @override
   void initState() {
     super.initState();
-    _credentials = Box.readCredentials()!;
-    tryLogin();
+    var crd = Box.readCredentials();
+    if (crd != null) {
+      _credentials = crd;
+
+      tryLogin();
+    } else {
+      gotoSignin();
+    }
   }
 
   @override
@@ -39,7 +45,7 @@ class _SplashPageState extends State<SplashPage> {
       gotoSignin();
       return;
     }
-    var auth = await UgtBaseNetwork.userSignin(_credentials);
+    var auth = await UgtBaseNetwork.userSignin(_credentials!);
     if (auth != null) {
       print("auth: ${auth.accessToken}");
       print("move to home");
@@ -50,14 +56,11 @@ class _SplashPageState extends State<SplashPage> {
     }
   }
 
-
-
   Future<void> gotoSignin() async {
-    Future.delayed(Duration.zero, () {
+    Future.delayed(Duration(milliseconds: 300), () {
       Get.offAndToNamed(p.signin);
     });
   }
-
 
   Future<void> gotoHome() async {
     Future.delayed(Duration.zero, () {

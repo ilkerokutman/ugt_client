@@ -16,7 +16,7 @@ class Box {
 
   static Credentials? readCredentials() {
     final box = GetStorage();
-    String _credentials = box.read(keys.credentials);
+    String? _credentials = box.read(keys.credentials);
     if (_credentials == null) return null;
     return Credentials.fromMap(json.decode(_credentials));
   }
