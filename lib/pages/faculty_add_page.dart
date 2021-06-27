@@ -9,6 +9,7 @@ import 'package:ugt_client/models/auth.dart';
 
 import '../settings/dimens.dart' as d;
 import '../settings/page_codes.dart' as p;
+import '../settings/constants.dart' as c;
 
 class FacultyAddPage extends StatefulWidget {
   @override
@@ -74,7 +75,7 @@ class _FacultyAddPageState extends State<FacultyAddPage> {
     if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
     setState(() => _isLoading = true);
-    var id = await UgtBaseNetwork.addFaculty(name: name);
+    var id = await UgtBaseNetwork.addGeneric(url: c.URL_FACULTY_ADD, data: {"name": name});
     setState(() => _isLoading = false);
     Get.offAndToNamed("${p.facultyEdit}?id=$id");
   }

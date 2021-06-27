@@ -1,3 +1,3 @@
 library dimens;
 
-const double formMaxWidth = 300;
+const double formMaxWidth = 600;

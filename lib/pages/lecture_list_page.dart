@@ -17,13 +17,13 @@ class LectureListPage extends StatefulWidget {
 class _LectureListPageState extends State<LectureListPage> {
   Auth? auth = Box.readAuth();
   bool _isLoading = false;
-  late Future _futureLectureList;
-  // id olmali
+  List<Lecture> _lectures = <Lecture>[];
+  GlobalKey<RefreshIndicatorState> _refreshKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    _futureLectureList = _listLectures();
+    _fetchData();
   }
 
   @override
@@ -33,105 +33,77 @@ class _LectureListPageState extends State<LectureListPage> {
         title: Text("Ders Listesi"),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Get.toNamed(p.lectureNew);
-            },
-          ),
+              onPressed: () async {
+                var result = await Get.toNamed(p.lectureNew);
+                _fetchData();
+              },
+              icon: Icon(Icons.add)),
         ],
       ),
-      drawer: UgtDrawer(),
       body: SafeArea(
         child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: FutureBuilder(
-            future: _futureLectureList,
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.done:
-                  if (snapshot.hasData && snapshot.data != null) {
-                    List<Lecture> _data = snapshot.data as List<Lecture>;
-                    if (_data.length > 0) {
-                      return _lectureListScreen(_data);
-                    } else {
-                      return Container(
-                        child: Column(
-                          children: [
-                            _lectureFilters(),
-                            Expanded(child: EmptyListWidget(subject: 'Ders')),
-                          ],
-                        ),
-                      );
-                    }
-                  } else {
-                    return Container(
-                      child: Column(
-                        children: [
-                          _lectureFilters(),
-                          Expanded(child: EmptyListWidget(subject: 'Ders')),
-                        ],
+          child: RefreshIndicator(
+            key: _refreshKey,
+            onRefresh: _fetchData,
+            child: _isLoading
+                ? LoadingWidget()
+                : _lectures.length == 0
+                    ? EmptyListWidget()
+                    : ListView.builder(
+                        itemBuilder: (context, index) {
+                          return _listRow(_lectures[index]);
+                        },
+                        itemCount: _lectures.length,
                       ),
-                    );
-                  }
-                  break;
-                default:
-                  return LoadingWidget(
-                    text: 'Dersler yükleniyor',
-                  );
-              }
-            },
           ),
         ),
       ),
     );
   }
 
-  Future<List<Lecture>> _listLectures() async {
-    var lectureList = await UgtBaseNetwork.listLectures();
-    return lectureList;
-  }
-
-  Widget _lectureListScreen(List<Lecture> lectures) {
+  Widget _listRow(Lecture item) {
     return Container(
-      child: Column(
-        children: [
-          _lectureFilters(),
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return _lectureItem(lectures[index]);
-              },
-              itemCount: lectures.length,
-            ),
+      padding: const EdgeInsets.only(bottom: 1, left: 10, right: 10, top: 10),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: ListTile(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("${item.code}"),
+              SizedBox(width: 30),
+              CircleAvatar(
+                backgroundColor: item.statusId == 1 ? Colors.green : Colors.red,
+                child: Icon(item.statusId == 1 ? Icons.check : Icons.snooze),
+              ),
+            ],
           ),
-        ],
+          title: Text("${item.name} - ${item.semester} - ${item.academicYear}. Dönem"),
+          subtitle: Text(
+            "${item.programName}\n${item.lecturerName}",
+            overflow: TextOverflow.ellipsis,
+          ),
+          isThreeLine: true,
+          tileColor: Colors.grey.withOpacity(0.1),
+          onTap: () async {
+            var result = await Get.toNamed("${p.lectureEdit}?id=${item.id}");
+            _fetchData();
+          },
+        ),
       ),
     );
   }
 
-  Widget _lectureFilters() {
-    return Container(
-      height: 100,
-      width: double.infinity,
-      color: Colors.green[50],
-      child: Center(
-        child: Text("filters"),
-      ),
-    );
-  }
-
-  Widget _lectureItem(Lecture lecture) {
-    return ListTile(
-      title: Text(lecture.name ?? ""),
-      subtitle: Text("${lecture.code} ${lecture.academicYear}"),
-      onTap: () {
-        _openLecture(lecture.id ?? "");
-      },
-    );
-  }
-
-  void _openLecture(String id) {
-    Get.toNamed("${p.lecture}?id=$id");
+  Future<void> _fetchData() async {
+    setState(() {
+      _isLoading = true;
+    });
+    var data = await UgtBaseNetwork.getLectures();
+    print("we get data of ${data.length} rows");
+    setState(() {
+      _lectures = data;
+      _isLoading = false;
+    });
   }
 }

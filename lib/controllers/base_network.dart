@@ -1,9 +1,13 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:ugt_client/models/db_entity.dart';
+import 'package:ugt_client/models/department.dart';
 import 'package:ugt_client/models/faculty.dart';
 import 'package:ugt_client/models/lecture.dart';
 import 'package:ugt_client/models/lecturer.dart';
+import 'package:ugt_client/models/program_and_division.dart';
+import 'package:ugt_client/models/student.dart';
 import '../helpers/box.dart';
 import '../models/credentials.dart';
 import '../models/auth.dart';
@@ -25,15 +29,12 @@ class UgtBaseNetwork {
                 } else {
                   return {"success": true, "statusCode": response.data["statusCode"]};
                 }
-                break;
               default:
                 return {"success": false, "statusCode": response.data["statusCode"]};
-                break;
             }
           } else {
             return {"success": false, "statusCode": response.data["statusCode"]};
           }
-          break;
         default:
           return {"success": false, "statusCode": response.statusCode};
       }
@@ -56,6 +57,7 @@ class UgtBaseNetwork {
 
   static Future<Dio> _getDioWithToken() async {
     String _token = Box.readToken();
+    print("using Token: $_token");
     Dio _dio = await _getDio();
     _dio.options.headers["Authorization"] = "Bearer $_token";
     return _dio;
@@ -106,6 +108,7 @@ class UgtBaseNetwork {
       return {"success": false, "message": exception.toString()};
     }
   }
+
   //#endregion
 
   //#region USER
@@ -133,6 +136,15 @@ class UgtBaseNetwork {
   //#endregion
 
   //#region LECTURER
+  static Future<List<Lecturer>> getLecturers() async {
+    var response = await _postWithToken(c.URL_LECTURER_LIST, {});
+    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
+      var list = List<Lecturer>.from(response["data"].map((x) => Lecturer.fromMap(x)));
+      return list;
+    }
+    return <Lecturer>[];
+  }
+
   static Future<Lecturer?> getLecturer(String id) async {
     Map<String, dynamic> data = {"id": id};
     var response = await _postWithToken(c.URL_LECTURER_GET, data);
@@ -152,10 +164,60 @@ class UgtBaseNetwork {
     var lecturer = Lecturer.fromMap(response["data"]);
     return lecturer;
   }
+
+  static Future<Lecturer?> saveLecturer(Map<String, dynamic> data) async {
+    var response = await _postWithToken(c.URL_LECTURER_SAVE, data);
+    if (response["data"] != null) {
+      var data = Lecturer.fromMap(response["data"][0]);
+      return data;
+    }
+    return null;
+  }
+  //#endregion
+
+  //#region STUDENT
+  static Future<List<Student>> getStudents() async {
+    var response = await _postWithToken(c.URL_STUDENT_LIST, {});
+    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
+      var list = List<Student>.from(response["data"].map((x) => Student.fromMap(x)));
+      return list;
+    }
+    return <Student>[];
+  }
+
+  static Future<Student?> getStudent(String id) async {
+    Map<String, dynamic> data = {"id": id};
+    var response = await _postWithToken(c.URL_STUDENT_GET, data);
+    if (response["success"] == false) return null;
+    if (response["data"] is List && response["data"].length > 0) {
+      var student = Student.fromMap(response["data"][0]);
+      return student;
+    }
+    var student = Student.fromMap(response["data"]);
+    return student;
+  }
+
+  static Future<Student?> getStudentByUserId(String id) async {
+    Map<String, dynamic> data = {"id": id};
+    var response = await _postWithToken(c.URL_STUDENT_GET_BY_USER, data);
+    if (response["success"] == false) return null;
+    var student = Student.fromMap(response["data"]);
+    return student;
+  }
+
+  static Future<Student?> saveStudent(Map<String, dynamic> data) async {
+    var response = await _postWithToken(c.URL_STUDENT_SAVE, data);
+    if (response["data"] != null) {
+      var data = Student.fromMap(response["data"][0]);
+      return data;
+    }
+    return null;
+  }
+
   //#endregion
 
   //#region LECTURE
-  static Future<List<Lecture>> listLectures() async {
+  static Future<List<Lecture>> getLectures() async {
     var response = await _postWithToken(c.URL_LECTURE_LIST, {});
     if (response["success"] == false) return <Lecture>[];
     if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
@@ -163,6 +225,27 @@ class UgtBaseNetwork {
       return list;
     }
     return <Lecture>[];
+  }
+
+  static Future<Lecture?> getLecture(String id) async {
+    Map<String, dynamic> data = {"id": id};
+    var response = await _postWithToken(c.URL_LECTURE_GET, data);
+    if (response["success"] == false) return null;
+    if (response["data"] is List && response["data"].length > 0) {
+      var lecture = Lecture.fromMap(response["data"][0]);
+      return lecture;
+    }
+    var lecture = Lecture.fromMap(response["data"]);
+    return lecture;
+  }
+
+  static Future<Lecture?> saveLecture(Map<String, dynamic> data) async {
+    var response = await _postWithToken(c.URL_LECTURE_SAVE, data);
+    if (response["data"] != null) {
+      var data = Lecture.fromMap(response["data"][0]);
+      return data;
+    }
+    return null;
   }
   //#endregion
 
@@ -189,11 +272,6 @@ class UgtBaseNetwork {
     await _postWithToken(c.URL_FACULTY_DELETE, {"id": id});
   }
 
-  static Future<String> addFaculty({required String name}) async {
-    var response = await _postWithToken(c.URL_FACULTY_ADD, {"name": name});
-    return response["data"][0]["data"];
-  }
-
   static Future<Faculty?> saveFaculty(Faculty faculty) async {
     print("saving faculty: ${faculty.toMap().toString()}");
     var response = await _postWithToken(c.URL_FACULTY_SAVE, faculty.toMap());
@@ -202,6 +280,90 @@ class UgtBaseNetwork {
       return faculty;
     }
     return null;
+  }
+  //#endregion
+
+  //#region DEPARTMENT
+  static Future<List<Department>> listDepartments() async {
+    var response = await _postWithToken(c.URL_DEPARTMENT_LIST, {});
+    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
+      var list = List<Department>.from(response["data"].map((x) => Department.fromMap(x)));
+      return list;
+    }
+    return <Department>[];
+  }
+
+  static Future<Department?> getDepartment(String id) async {
+    var response = await _postWithToken(c.URL_DEPARTMENT_GET, {"id": id});
+    if (response["data"] != null) {
+      var department = Department.fromMap(response["data"][0]);
+      return department;
+    }
+    return null;
+  }
+
+  static Future<Faculty?> saveDepartment(Faculty d) async {
+    print("saving faculty: ${d.toMap().toString()}");
+    var response = await _postWithToken(c.URL_DEPARTMENT_SAVE, d.toMap());
+    if (response["data"] != null) {
+      var department = Faculty.fromMap(response["data"][0]);
+      return department;
+    }
+    return null;
+  }
+  //#endregion
+
+  //#region PROGRAMS AND DIVISIONS
+  static Future<List<ProgramAndDivision>> listPrograms() async {
+    var response = await _postWithToken(c.URL_DAP_LIST, {});
+    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
+      var list = List<ProgramAndDivision>.from(response["data"].map((x) => ProgramAndDivision.fromMap(x)));
+      return list;
+    }
+    return <ProgramAndDivision>[];
+  }
+
+  static Future<ProgramAndDivision?> getProgram(String id) async {
+    var response = await _postWithToken(c.URL_DAP_GET, {"id": id});
+    if (response["data"] != null) {
+      var data = ProgramAndDivision.fromMap(response["data"][0]);
+      return data;
+    }
+    return null;
+  }
+
+  static Future<ProgramAndDivision?> saveProgram(Map<String, dynamic> data) async {
+    var response = await _postWithToken(c.URL_DAP_SAVE, data);
+    if (response["data"] != null) {
+      var data = ProgramAndDivision.fromMap(response["data"][0]);
+      return data;
+    }
+    return null;
+  }
+
+  //#endregion
+
+  //#region DBENTITY
+  static Future<List<DbEntity>> fetchDropdownItems({required String url, Map<String, dynamic>? data}) async {
+    var response = await _postWithToken(url, data ?? {});
+    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
+      var list = List<DbEntity>.from(response["data"].map((x) => DbEntity.fromMap(x)));
+      return list;
+    }
+    return <DbEntity>[];
+  }
+  //#endregion
+
+  //#region GENERIC
+  static Future<String> addGeneric({required String url, required Map<String, dynamic> data}) async {
+    var response = await _postWithToken(url, data);
+    String s = response["data"].toString();
+    String r = s.replaceAll("{", "").replaceAll("}", "").replaceAll("id: ", "");
+    return r;
+  }
+
+  static Future<void> deleteGeneric({required String url, required String id}) async {
+    await _postWithToken(url, {"id": id});
   }
   //#endregion
 }

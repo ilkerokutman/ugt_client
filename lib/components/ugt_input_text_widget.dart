@@ -5,18 +5,19 @@ class UgtInputTextWidget extends StatelessWidget {
   final TextInputType keyboardType;
   final Function onSaved;
   final Function validator;
-  final TextEditingController controller;
+  TextEditingController? controller;
   UgtInputTextWidget({
     required this.hintText,
-    required this.keyboardType,
+    this.keyboardType = TextInputType.text,
     required this.onSaved,
     required this.validator,
-    required this.controller,
+    this.controller,
   });
   @override
   Widget build(BuildContext context) {
+    if (controller == null) controller = TextEditingController();
     return Container(
-      height: 60,
+      height: 70,
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 10),
       child: ClipRRect(
@@ -24,22 +25,36 @@ class UgtInputTextWidget extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 19),
           color: Colors.grey.withOpacity(0.1),
-          child: Center(
-            child: TextFormField(
-              decoration: InputDecoration.collapsed(
-                hintText: hintText,
-                hintStyle: TextStyle(fontSize: 17, color: Colors.blueGrey),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "$hintText",
+                style: TextStyle(color: Colors.black.withOpacity(0.5), fontSize: 14, fontWeight: FontWeight.w300),
               ),
-              keyboardType: keyboardType,
-              onSaved: (val) {
-                onSaved(val);
-              },
-              validator: (val) {
-                validator(val);
-              },
-              controller: controller,
-              enableInteractiveSelection: true,
-            ),
+              TextFormField(
+                decoration: InputDecoration.collapsed(
+                  hintText: hintText,
+                  hintStyle: TextStyle(
+                    color: Colors.black.withOpacity(0.35),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                  ),
+
+                ),
+                keyboardType: keyboardType,
+                onSaved: (val) {
+                  onSaved(val);
+                },
+                validator: (val) {
+                  validator(val);
+                },
+
+                controller: controller,
+                enableInteractiveSelection: true,
+              ),
+            ],
           ),
         ),
       ),

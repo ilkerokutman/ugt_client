@@ -5,10 +5,17 @@ class EmptyListWidget extends StatelessWidget {
   EmptyListWidget({this.subject = 'öğe'});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text("Görüntülenecek $subject bulunamadı."),
-      ),
+    return Stack(
+      children: [
+        Container(
+          child: Center(
+            child: Text("Görüntülenecek $subject bulunamadı."),
+          ),
+        ),
+        ListView(
+          children: [],
+        )
+      ],
     );
   }
 }

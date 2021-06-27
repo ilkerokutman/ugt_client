@@ -134,25 +134,30 @@ class UgtDrawer extends StatelessWidget {
       ),
       UgtMenuLabelWidget(title: "Tanımlamalar"),
       UgtMenuItemWidget(
-        title: "Öğrenci Lıstesi",
+        title: "Öğrenci Listesi",
         url: p.students,
       ),
       UgtMenuItemWidget(
         title: "Öğr.Görevlileri Listesi",
         url: p.lecturers,
       ),
+
       UgtMenuItemWidget(
-        title: "Yöneticiler",
-        url: p.admins,
+        title: "Ders Listesi",
+        url: p.lectures,
       ),
+      // UgtMenuItemWidget(
+      //   title: "Yöneticiler",
+      //   url: p.admins,
+      // ),
       UgtMenuItemWidget(
         title: "Fakülteler",
         url: p.faculties,
       ),
-      UgtMenuItemWidget(
-        title: "Departmanlar",
-        url: p.departments,
-      ),
+      // UgtMenuItemWidget(
+      //   title: "Departmanlar",
+      //   url: p.departments,
+      // ),
       UgtMenuItemWidget(
         title: "Programlar",
         url: p.programs,

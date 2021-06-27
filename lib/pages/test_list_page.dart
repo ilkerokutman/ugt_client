@@ -53,16 +53,7 @@ class _TestListPageState extends State<TestListPage> {
 
   void _populateTestItems() {
     List<Student> testItems = <Student>[];
-    testItems.add(Student(
-        department: "dep",
-        entranceDate: "2019",
-        grade: 2,
-        program: "program",
-        status: 1,
-        studentNumber: "123456789",
-        unit: "unit",
-        yearOfBirth: 1990,
-        userId: "abc"));
+   
     setState(() => _testItems = testItems);
   }
 }
