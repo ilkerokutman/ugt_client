@@ -1,5 +1,55 @@
 import 'dart:convert';
 
+class AssignmentRequest {
+  String? title;
+  String? description;
+  AssignmentRequest({
+    this.title,
+    this.description,
+  });
+
+  AssignmentRequest copyWith({
+    String? title,
+    String? description,
+  }) {
+    return AssignmentRequest(
+      title: title ?? this.title,
+      description: description ?? this.description,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'description': description,
+    };
+  }
+
+  factory AssignmentRequest.fromMap(Map<String, dynamic> map) {
+    return AssignmentRequest(
+      title: map['title'],
+      description: map['description'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory AssignmentRequest.fromJson(String source) => AssignmentRequest.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'AssignmentRequest(title: $title, description: $description)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AssignmentRequest && other.title == title && other.description == description;
+  }
+
+  @override
+  int get hashCode => title.hashCode ^ description.hashCode;
+}
+
 class LectureRequest {
   String? name;
   String? description;

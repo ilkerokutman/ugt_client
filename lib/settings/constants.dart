@@ -54,12 +54,18 @@ const String URL_LECTURE_GET = "get-lecture";
 const String URL_LECTURE_SAVE = "save-lecture";
 const String URL_LECTURE_DELETE = "delete-lecture";
 
+// ASSIGNMENT
+const String URL_ASSIGNMENT_LIST = "get-assignments";
+const String URL_ASSIGNMENT_ADD = "add-assignment";
+const String URL_ASSIGNMENT_GET = "get-assignment";
+const String URL_ASSIGNMENT_SAVE = "save-assignment";
+const String URL_ASSIGNMENT_DELETE = "delete-assignment";
+
 // ROLES
 const String URL_ROLE_LIST = "get-user-role-list";
 const String URL_ROLE_LIST_HIGH = "get-user-role-list-h";
 const String URL_ROLE_LIST_LOW = "get-user-role-list-l";
 
-// 
+//
 const String URL_GET_YEARS = "get-year-list";
 const String URL_GET_GRADES = "get-grade-list";
-

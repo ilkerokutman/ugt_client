@@ -237,7 +237,13 @@ class _LecturerEditPageState extends State<LecturerEditPage> {
         });
   }
 
-  const String URL_LECTURE_SAVE = "save-lecture";
-const String URL_LECTURE_SAVE = "save-lecture";
-
+  Future<void> _loadData() async {
+    setState(() => _isLoading = true);
+    var lecturer = await UgtBaseNetwork.getLecturer(_id!);
+    setState(() {
+      _lecturer = lecturer;
+      _isLoading = false;
+      _dataLoaded = lecturer != null;
+    });
+  }
 }

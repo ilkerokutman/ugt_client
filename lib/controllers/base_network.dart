@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:ugt_client/models/assignment.dart';
 import 'package:ugt_client/models/db_entity.dart';
 import 'package:ugt_client/models/department.dart';
 import 'package:ugt_client/models/faculty.dart';
@@ -243,6 +244,39 @@ class UgtBaseNetwork {
     var response = await _postWithToken(c.URL_LECTURE_SAVE, data);
     if (response["data"] != null) {
       var data = Lecture.fromMap(response["data"][0]);
+      return data;
+    }
+    return null;
+  }
+  //#endregion
+
+  //#region ASSIGNMENT
+  static Future<List<Assignment>> getAssignments() async {
+    var response = await _postWithToken(c.URL_ASSIGNMENT_LIST, {});
+    if (response["success"] == false) return <Assignment>[];
+    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
+      var list = List<Assignment>.from(response["data"].map((x) => Assignment.fromMap(x)));
+      return list;
+    }
+    return <Assignment>[];
+  }
+
+  static Future<Assignment?> getAssignment(String id) async {
+    Map<String, dynamic> data = {"id": id};
+    var response = await _postWithToken(c.URL_ASSIGNMENT_GET, data);
+    if (response["success"] == false) return null;
+    if (response["data"] is List && response["data"].length > 0) {
+      var item = Assignment.fromMap(response["data"][0]);
+      return item;
+    }
+    var item = Assignment.fromMap(response["data"]);
+    return item;
+  }
+
+  static Future<Assignment?> saveAssignment(Map<String, dynamic> data) async {
+    var response = await _postWithToken(c.URL_ASSIGNMENT_SAVE, data);
+    if (response["data"] != null) {
+      var data = Assignment.fromMap(response["data"][0]);
       return data;
     }
     return null;
