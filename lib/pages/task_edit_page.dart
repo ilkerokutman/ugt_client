@@ -31,6 +31,7 @@ class _TaskEditPageState extends State<TaskEditPage> {
   GlobalKey<FormState> _formKey = GlobalKey();
   TextEditingController _controllerName = TextEditingController();
   TextEditingController _controllerDescription = TextEditingController();
+  TextEditingController _controllerAssets = TextEditingController();
   Assignment? _assignment;
 
   @override
@@ -63,74 +64,7 @@ class _TaskEditPageState extends State<TaskEditPage> {
                             key: _formKey,
                             child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  UgtSectionTitleWidget(title: "İşlemler"),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      UgtButtonWidget(
-                                        title: "Dersi Alan Öğrenci Listesi",
-                                        callback: () {},
-                                        isPrimary: false,
-                                      ),
-                                      UgtButtonWidget(
-                                        title: "Derse Ait Görevler",
-                                        callback: () {},
-                                        isPrimary: false,
-                                      ),
-                                    ],
-                                  ),
-                                  Divider(),
-                                  UgtSectionTitleWidget(title: "Bilgileri Düzenle"),
-                                  UgtInputTextWidget(
-                                    hintText: "Dersin Adi",
-                                    onSaved: _onSavedName,
-                                    validator: _emptyValidator,
-                                    controller: _controllerName,
-                                    keyboardType: TextInputType.name,
-                                  ),
-                                  UgtInputTextWidget(
-                                    hintText: "Açıklama",
-                                    onSaved: _onSavedDescription,
-                                    validator: _emptyValidator,
-                                    controller: _controllerDescription,
-                                    keyboardType: TextInputType.name,
-                                  ),
-                                  UgtSwitchWidget(
-                                    label: "Yayın Durumu",
-                                    value: _assignment!.statusId == 1,
-                                    onChanged: _onStatusClick,
-                                  ),
-                                  UgtDropdownFetchWidget(
-                                    title: "Program",
-                                    sourceUrl: c.URL_DAP_LIST,
-                                    handleClick: _onProgramClick,
-                                    selectedId: _assignment!.program,
-                                    // selectedText: _assignment!.programName,
-                                  ),
-                                  SizedBox(height: 30),
-                                  UgtButtonWidget(
-                                    title: "Kaydet",
-                                    isPrimary: true,
-                                    floatRight: true,
-                                    callback: _saveData,
-                                  ),
-                                  SizedBox(height: 50),
-                                  Divider(),
-                                  // NameValueRow(
-                                  //   label: "Oluşturma Tarihi",
-                                  //   value: _assignment!.createdOn,
-                                  // ),
-                                  // NameValueRow(
-                                  //   label: "Düzenleme Tarihi",
-                                  //   value: _assignment!.modifiedOn,
-                                  // ),
-                                  SizedBox(height: 30),
-                                ],
-                              ),
+                              child: _assignment!.isTemplate == 1 ? _templateView() : _taskView(),
                             ),
                           ),
                         ),
@@ -138,6 +72,154 @@ class _TaskEditPageState extends State<TaskEditPage> {
                     ),
         ),
       ),
+    );
+  }
+
+  Widget _templateView() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        UgtSectionTitleWidget(title: "İşlemler"),
+        UgtButtonWidget(
+          title: "Kopya oluştur",
+          callback: () async {
+            var result = await UgtBaseNetwork.copyAssignment(_id!);
+            Get.offAndToNamed("${p.taskEdit}?id=$result");
+          },
+          isPrimary: false,
+        ),
+        Divider(),
+        UgtSectionTitleWidget(title: "Bilgileri Düzenle"),
+        UgtInputTextWidget(
+          hintText: "Görevin Adi",
+          onSaved: _onSavedName,
+          validator: _emptyValidator,
+          controller: _controllerName,
+          keyboardType: TextInputType.name,
+        ),
+        UgtInputTextWidget(
+          hintText: "Açıklama",
+          onSaved: _onSavedDescription,
+          validator: _emptyValidator,
+          controller: _controllerDescription,
+          keyboardType: TextInputType.name,
+        ),
+        UgtInputTextWidget(
+          hintText: "Belgeler",
+          onSaved: _onSavedDescription,
+          validator: _emptyValidator,
+          controller: _controllerAssets,
+          keyboardType: TextInputType.name,
+        ),
+        UgtSwitchWidget(
+          label: "Yayın Durumu",
+          value: _assignment!.statusId == 1,
+          onChanged: _onStatusClick,
+        ),
+        UgtDropdownFetchWidget(
+          title: "Program",
+          sourceUrl: c.URL_DAP_LIST,
+          handleClick: _onProgramClick,
+          selectedId: _assignment!.programId,
+          selectedText: _assignment!.programName,
+        ),
+        UgtDropdownFetchWidget(
+          title: "Ders",
+          sourceUrl: c.URL_LECTURE_LIST,
+          handleClick: _onProgramClick,
+          selectedId: _assignment!.lectureId,
+          selectedText: _assignment!.lectureName,
+        ),
+        UgtDropdownFetchWidget(
+          title: "Öğretim Görevlisi",
+          sourceUrl: c.URL_LECTURER_LIST,
+          handleClick: _onProgramClick,
+          selectedId: _assignment!.lecturerId,
+          selectedText: _assignment!.lecturerName,
+        ),
+        SizedBox(height: 30),
+        UgtButtonWidget(
+          title: "Kaydet",
+          isPrimary: true,
+          floatRight: true,
+          callback: _saveData,
+        ),
+        SizedBox(height: 50),
+        Divider(),
+        // NameValueRow(
+        //   label: "Oluşturma Tarihi",
+        //   value: _assignment!.createdOn,
+        // ),
+        // NameValueRow(
+        //   label: "Düzenleme Tarihi",
+        //   value: _assignment!.modifiedOn,
+        // ),
+        SizedBox(height: 30),
+      ],
+    );
+  }
+
+  Widget _taskView() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        UgtSectionTitleWidget(title: "İşlemler"),
+        UgtButtonWidget(
+          title: "Görevi Alan Öğrenci Listesi",
+          callback: () {
+            Get.toNamed("${p.taskDetail}?id=$_id");
+          },
+          isPrimary: false,
+        ),
+        Divider(),
+        UgtSectionTitleWidget(title: "Bilgileri Düzenle"),
+        UgtInputTextWidget(
+          hintText: "Dersin Adi",
+          onSaved: _onSavedName,
+          validator: _emptyValidator,
+          controller: _controllerName,
+          keyboardType: TextInputType.name,
+        ),
+        UgtInputTextWidget(
+          hintText: "Açıklama",
+          onSaved: _onSavedDescription,
+          validator: _emptyValidator,
+          controller: _controllerDescription,
+          keyboardType: TextInputType.name,
+        ),
+        UgtSwitchWidget(
+          label: "Yayın Durumu",
+          value: _assignment!.statusId == 1,
+          onChanged: _onStatusClick,
+        ),
+        UgtDropdownFetchWidget(
+          title: "Program",
+          sourceUrl: c.URL_DAP_LIST,
+          handleClick: _onProgramClick,
+          selectedId: _assignment!.programId,
+          selectedText: _assignment!.programName,
+        ),
+        SizedBox(height: 30),
+        UgtButtonWidget(
+          title: "Kaydet",
+          isPrimary: true,
+          floatRight: true,
+          callback: _saveData,
+        ),
+        SizedBox(height: 50),
+        Divider(),
+        // NameValueRow(
+        //   label: "Oluşturma Tarihi",
+        //   value: _assignment!.createdOn,
+        // ),
+        // NameValueRow(
+        //   label: "Düzenleme Tarihi",
+        //   value: _assignment!.modifiedOn,
+        // ),
+        SizedBox(height: 30),
+      ],
     );
   }
 
@@ -155,7 +237,7 @@ class _TaskEditPageState extends State<TaskEditPage> {
 
   _onProgramClick(item) {
     setState(() {
-      _assignment!.program = item.id;
+      _assignment!.programId = item.id;
     });
   }
 
@@ -201,6 +283,7 @@ class _TaskEditPageState extends State<TaskEditPage> {
       _isLoading = false;
       _controllerName.text = data!.title!;
       _controllerDescription.text = data.description!;
+      _controllerAssets.text = data.assetUrl!;
     });
   }
 }

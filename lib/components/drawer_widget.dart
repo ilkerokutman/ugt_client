@@ -103,18 +103,19 @@ class UgtDrawer extends StatelessWidget {
       UgtMenuItemWidget(
         title: "Derslerim",
         url: p.myLectures,
-        // icon: Icons.my_library_books,
       ),
       UgtMenuItemWidget(
         title: "Öğrencilerim",
         url: p.myStudents,
-        // icon: FontAwesomeIcons.userGraduate,
+      ),
+      UgtMenuItemWidget(
+        title: "Görevler",
+        url: p.tasks,
       ),
       UgtMenuLabelWidget(title: "Bölüme Özel"),
       UgtMenuItemWidget(
         title: "Bölüm Dersleri",
         url: p.ourLectures,
-        // icon: FontAwesomeIcons.userGraduate,
       ),
       UgtMenuItemWidget(
         title: "Bölüm Öğr.Görevlileri",
@@ -128,11 +129,12 @@ class UgtDrawer extends StatelessWidget {
         title: "Görevler",
         url: p.tasks,
       ),
+      UgtMenuLabelWidget(title: "Tanımlamalar"),
+
       UgtMenuItemWidget(
         title: "Görev Havuzu",
         url: p.taskPool,
       ),
-      UgtMenuLabelWidget(title: "Tanımlamalar"),
       UgtMenuItemWidget(
         title: "Öğrenci Listesi",
         url: p.students,
@@ -146,18 +148,10 @@ class UgtDrawer extends StatelessWidget {
         title: "Ders Listesi",
         url: p.lectures,
       ),
-      // UgtMenuItemWidget(
-      //   title: "Yöneticiler",
-      //   url: p.admins,
-      // ),
       UgtMenuItemWidget(
         title: "Fakülteler",
         url: p.faculties,
       ),
-      // UgtMenuItemWidget(
-      //   title: "Departmanlar",
-      //   url: p.departments,
-      // ),
       UgtMenuItemWidget(
         title: "Programlar",
         url: p.programs,

@@ -51,8 +51,10 @@ const String tasks = "/tasks";
 const String task = "/task";
 const String taskAdd = "/taskAdd";
 const String taskEdit = "/taskEdit";
+const String taskDetail = "/taskDetail";
 
 const String students = "/students";
 const String student = "/student";
 const String studentAdd = "/student-add";
 const String studentEdit = "/student-edit";
+const String studentDetail = "/student-detail";

@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
       drawer: UgtDrawer(),
       body: SafeArea(
         child: Container(
-          color: Colors.yellow,
+          child: Center(child: Text("s"),)
         ),
       ),
     );

@@ -12,6 +12,8 @@ import '../settings/page_codes.dart' as p;
 import '../settings/constants.dart' as c;
 
 class TaskListPage extends StatefulWidget {
+  final int isPool;
+  TaskListPage({this.isPool = 0});
   @override
   _TaskListPageState createState() => _TaskListPageState();
 }
@@ -32,7 +34,7 @@ class _TaskListPageState extends State<TaskListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Görev Listesi"),
+        title: Text(widget.isPool == 1 ? "Görev Havuzu" : "Görev Listesi"),
       ),
       body: SafeArea(
         child: Container(
@@ -62,16 +64,16 @@ class _TaskListPageState extends State<TaskListPage> {
         borderRadius: BorderRadius.circular(10),
         child: ListTile(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          // trailing: CircleAvatar(
-          //   backgroundColor: item.statusId == 1 ? Colors.green : Colors.red,
-          //   child: Icon(item.statusId == 1 ? Icons.check : Icons.snooze),
-          // ),
-
+          trailing: CircleAvatar(
+            backgroundColor: item.statusId == 1 ? Colors.green : Colors.red,
+            child: Icon(item.statusId == 1 ? Icons.check : Icons.snooze),
+          ),
           title: Text("${item.title}"),
-          // subtitle: Text("${item.programName} [${item.grade}.dönem], ${item.facultyName}",
-          //   overflow: TextOverflow.ellipsis,
-          // ),
-
+          subtitle: Text(
+            "${item.lectureName} - ${item.lecturerName}\n${item.programName} [${item.academicYear}.dönem]",
+            overflow: TextOverflow.ellipsis,
+          ),
+          isThreeLine: true,
           tileColor: Colors.grey.withOpacity(0.1),
           onTap: () async {
             var result = await Get.toNamed("${p.taskEdit}?id=${item.id}");
@@ -86,7 +88,7 @@ class _TaskListPageState extends State<TaskListPage> {
     setState(() {
       _isLoading = true;
     });
-    var data = await UgtBaseNetwork.getAssignments();
+    var data = await UgtBaseNetwork.getAssignments(isPool: widget.isPool);
     print("we get data of ${data.length} rows");
     setState(() {
       _assignments = data;

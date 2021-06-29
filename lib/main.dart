@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ugt_client/pages/student_detail_page.dart';
+import 'package:ugt_client/pages/students_of_task_page.dart';
 
 import './settings/page_codes.dart' as p;
 import './pages/splash_page.dart';
@@ -33,7 +35,6 @@ import './pages/task_add_page.dart';
 import './pages/task_edit_page.dart';
 import './pages/task_list_page.dart';
 import './pages/task_page.dart';
-import './pages/task_pool_page.dart';
 import './pages/department_add_page.dart';
 import './pages/department_edit_page.dart';
 import './pages/department_list_page.dart';
@@ -100,12 +101,14 @@ class _UGTState extends State<UGT> {
         GetPage(name: p.student, page: () => StudentPage()),
         GetPage(name: p.studentAdd, page: () => StudentAddPage()),
         GetPage(name: p.studentEdit, page: () => StudentEditPage()),
+        GetPage(name: p.studentDetail, page: () => StudentDetailPage()),
         //
-        GetPage(name: p.taskPool, page: () => TaskPoolPage()),
+        GetPage(name: p.taskPool, page: () => TaskListPage(isPool: 1)),
         GetPage(name: p.tasks, page: () => TaskListPage()),
         GetPage(name: p.task, page: () => TaskPage()),
         GetPage(name: p.taskAdd, page: () => TaskAddPage()),
         GetPage(name: p.taskEdit, page: () => TaskEditPage()),
+        GetPage(name: p.taskDetail, page: () => StudentsOfTaskPage()),
         //
         GetPage(name: p.admins, page: () => ManageAdminListPage()),
         GetPage(name: p.admin, page: () => ManageAdminPage()),
@@ -131,7 +134,6 @@ class _UGTState extends State<UGT> {
     );
   }
 }
-
 
 class LifecycleEventHandler extends WidgetsBindingObserver {
   final AsyncCallback resumeCallBack;

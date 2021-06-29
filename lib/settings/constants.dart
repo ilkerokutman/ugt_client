@@ -55,10 +55,16 @@ const String URL_LECTURE_SAVE = "save-lecture";
 const String URL_LECTURE_DELETE = "delete-lecture";
 
 // ASSIGNMENT
+const String URL_STUDENT_OF_ASSIGNMENT = "get-students-of-assignments";
+const String URL_ASSIGNMENTS_OF_STUDENT = "get-assignments-of-student";
+const String URL_ASSIGNMENTS_OF_LECTURE = "get-assignments-of-lecture";
+const String URL_ASSIGNMENTS_OF_LECTURER = "get-assignments-of-lecturer";
 const String URL_ASSIGNMENT_LIST = "get-assignments";
+const String URL_ASSIGNMENT_POOL = "get-assignment-pool";
 const String URL_ASSIGNMENT_ADD = "add-assignment";
 const String URL_ASSIGNMENT_GET = "get-assignment";
 const String URL_ASSIGNMENT_SAVE = "save-assignment";
+const String URL_ASSIGNMENT_COPY = "copy-assignment";
 const String URL_ASSIGNMENT_DELETE = "delete-assignment";
 
 // ROLES
@@ -69,3 +75,8 @@ const String URL_ROLE_LIST_LOW = "get-user-role-list-l";
 //
 const String URL_GET_YEARS = "get-year-list";
 const String URL_GET_GRADES = "get-grade-list";
+
+const int ASSIGNMENT_TYPE_NONE = 0;
+const int ASSIGNMENT_TYPE_ODEV = 1;
+const int ASSIGNMENT_TYPE_STAJ = 2;
+const int ASSIGNMENT_TYPE_PROJE_ODEVI = 3;
