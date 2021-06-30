@@ -8,7 +8,7 @@ import 'package:ugt_client/models/student.dart';
 
 class StudentDetail {
   Student? student;
-  List<Assignment>? assingments;
+  List<AssignmentDetail>? assingments;
   List<Lecture>? lectures;
   StudentDetail({
     this.student,
@@ -16,9 +16,15 @@ class StudentDetail {
     this.lectures,
   });
 
+  factory StudentDetail.strach() => StudentDetail(
+        student: null,
+        assingments: <AssignmentDetail>[],
+        lectures: <Lecture>[],
+      );
+
   StudentDetail copyWith({
     Student? student,
-    List<Assignment>? assingments,
+    List<AssignmentDetail>? assingments,
     List<Lecture>? lectures,
   }) {
     return StudentDetail(
@@ -39,7 +45,7 @@ class StudentDetail {
   factory StudentDetail.fromMap(Map<String, dynamic> map) {
     return StudentDetail(
       student: Student.fromMap(map['student']),
-      assingments: List<Assignment>.from(map['assingments']?.map((x) => Assignment.fromMap(x))),
+      assingments: List<AssignmentDetail>.from(map['assingments']?.map((x) => AssignmentDetail.fromMap(x))),
       lectures: List<Lecture>.from(map['lectures']?.map((x) => Lecture.fromMap(x))),
     );
   }

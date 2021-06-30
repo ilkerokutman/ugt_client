@@ -75,6 +75,13 @@ class _StudentEditPageState extends State<StudentEditPage> {
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     UgtButtonWidget(
+                                      title: "Öğrenci Detayı",
+                                      callback: () {
+                                        Get.toNamed("${p.studentDetail}?id=$_id");
+                                      },
+                                      isPrimary: false,
+                                    ),
+                                    UgtButtonWidget(
                                       title: "Ders Listesine Git",
                                       callback: () {},
                                       isPrimary: false,

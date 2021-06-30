@@ -59,6 +59,7 @@ const String URL_STUDENT_OF_ASSIGNMENT = "get-students-of-assignments";
 const String URL_ASSIGNMENTS_OF_STUDENT = "get-assignments-of-student";
 const String URL_ASSIGNMENTS_OF_LECTURE = "get-assignments-of-lecture";
 const String URL_ASSIGNMENTS_OF_LECTURER = "get-assignments-of-lecturer";
+const String URL_ASSIGNMENTS_DETAILS = "get-assignments-details";
 const String URL_ASSIGNMENT_LIST = "get-assignments";
 const String URL_ASSIGNMENT_POOL = "get-assignment-pool";
 const String URL_ASSIGNMENT_ADD = "add-assignment";

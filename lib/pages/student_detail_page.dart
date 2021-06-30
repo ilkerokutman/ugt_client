@@ -47,24 +47,116 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
         child: Container(
           child: _isLoading
               ? LoadingWidget()
-              : Expanded(
-                  child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Text("A"),
+              : SingleChildScrollView(
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _studentDetail(),
+                        _studentLectures(),
+                        _studentAssignments(),
+                      ],
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Text("B"),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Text("C"),
-                    ),
-                  ],
-                )),
+                  ),
+                ),
         ),
+      ),
+    );
+  }
+
+  Widget _studentDetail() {
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          UgtSectionTitleWidget(title: "Öğrenci Bilgileri"),
+          NameValueRow(
+            label: "Adı, Soyadı",
+            value: _data!.student!.fullName,
+          ),
+          NameValueRow(
+            label: "Numarası",
+            value: _data!.student!.studentNumber,
+          ),
+          NameValueRow(
+            label: "Fakülte",
+            value: _data!.student!.facultyName,
+          ),
+          NameValueRow(
+            label: "Program",
+            value: _data!.student!.programName,
+          ),
+          NameValueRow(
+            label: "Sınıf",
+            value: _data!.student!.grade.toString(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _studentLectures() {
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          UgtSectionTitleWidget(title: "Aldığı Dersler"),
+          _data!.lectures!.length > 0 ? Column(children: _lectureListWidget()) : Text("Ders bulunmuyor"),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _lectureListWidget() {
+    List<Widget> w = <Widget>[];
+    for (var i = 0; i < _data!.lectures!.length; i++) {
+      w.add(_rowLecture(i));
+      w.add(Divider());
+    }
+    return w;
+  }
+
+  List<Widget> _taskListWidget() {
+    List<Widget> w = <Widget>[];
+    for (var i = 0; i < _data!.assingments!.length; i++) {
+      w.add(_rowAssignments(i));
+      w.add(Divider());
+    }
+    return w;
+  }
+
+  Widget _rowLecture(int index) {
+    return NameValueRow(
+      label: "${_data!.lectures![index].code} - ${_data!.lectures![index].name} (${_data!.lectures![index].academicYear}. Dönem)",
+      value: _data!.lectures![index].lecturerName,
+    );
+  }
+
+  Widget _rowAssignments(int index) {
+    return NameValueRow(
+      label:
+          "${_data!.assingments![index].title} (${_data!.assingments![index].dueFrom} - ${_data!.assingments![index].dueTo})",
+      value:
+          "${_data!.assingments![index].description}\n${_data!.assingments![index].lectureName} - ${_data!.assingments![index].lecturerName}\nDurum: ${_data!.assingments![index].statusId==0?'Devam Ediyor':'Tamamlandı'}",
+    );
+  }
+
+  Widget _studentAssignments() {
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          UgtSectionTitleWidget(title: "Aldığı Görevler"),
+          _data!.assingments!.length > 0
+              ? Column(
+                  children: _taskListWidget(),
+                )
+              : Text("Görev Bulunmuyor"),
+        ],
       ),
     );
   }
@@ -76,6 +168,7 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
     var data = await UgtBaseNetwork.getStudentDetail(_id!);
     setState(() {
       _data = data;
+      _isLoading = false;
     });
   }
 }

@@ -73,23 +73,17 @@ class UgtDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            auth!.isAdmin()
+            auth!.isAdmin() || auth!.isLecturer()
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: _adminMenu(),
                   )
-                : auth!.isLecturer()
-                    ? Column(
-                        children: _lecturerMenu(),
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                      )
-                    : Column(
-                        children: _studentMenu(),
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                      ),
+                : Column(
+                    children: _studentMenu(),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                  ),
           ],
         ),
       ),
@@ -109,28 +103,10 @@ class UgtDrawer extends StatelessWidget {
         url: p.myStudents,
       ),
       UgtMenuItemWidget(
-        title: "Görevler",
-        url: p.tasks,
-      ),
-      UgtMenuLabelWidget(title: "Bölüme Özel"),
-      UgtMenuItemWidget(
-        title: "Bölüm Dersleri",
-        url: p.ourLectures,
-      ),
-      UgtMenuItemWidget(
-        title: "Bölüm Öğr.Görevlileri",
-        url: p.ourLecturers,
-      ),
-      UgtMenuItemWidget(
-        title: "Bölüm Öğrencileri",
-        url: p.ourStudents,
-      ),
-      UgtMenuItemWidget(
-        title: "Görevler",
-        url: p.tasks,
+        title: "Vergiğim Görevler",
+        url: p.myTasks,
       ),
       UgtMenuLabelWidget(title: "Tanımlamalar"),
-
       UgtMenuItemWidget(
         title: "Görev Havuzu",
         url: p.taskPool,
@@ -143,7 +119,6 @@ class UgtDrawer extends StatelessWidget {
         title: "Öğr.Görevlileri Listesi",
         url: p.lecturers,
       ),
-
       UgtMenuItemWidget(
         title: "Ders Listesi",
         url: p.lectures,
@@ -159,15 +134,6 @@ class UgtDrawer extends StatelessWidget {
     ];
   }
 
-  List<Widget> _lecturerMenu() {
-    return [
-      UgtMenuItemWidget(
-        title: "item 1",
-        url: "ignoring",
-      ),
-    ];
-  }
-
   List<Widget> _studentMenu() {
     return [
       UgtMenuItemWidget(
@@ -176,10 +142,6 @@ class UgtDrawer extends StatelessWidget {
       ),
       UgtMenuItemWidget(
         title: "Görevlerim",
-        url: "ignoring",
-      ),
-      UgtMenuItemWidget(
-        title: "Bulunduğum Gruplar",
         url: "ignoring",
       ),
     ];

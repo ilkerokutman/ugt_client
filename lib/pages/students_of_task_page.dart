@@ -7,7 +7,6 @@ import 'package:ugt_client/components/ugt_section_title_widget.dart';
 import 'package:ugt_client/controllers/base_network.dart';
 import 'package:ugt_client/helpers/box.dart';
 import 'package:ugt_client/models/assignment.dart';
-import 'package:ugt_client/models/assignment_detail.dart';
 import 'package:ugt_client/models/auth.dart';
 import 'package:ugt_client/models/students_of_assignments.dart';
 import '../settings/dimens.dart' as d;
@@ -48,13 +47,13 @@ class _StudentsOfTaskPageState extends State<StudentsOfTaskPage> {
                 : Column(
                     children: [
                       UgtSectionTitleWidget(title: "Detay"),
-                      _taskDetailRow(_data!.assignment!.title!),
-                      _taskDetailRow(_data!.assignment!.description!),
-                      _taskDetailRow(
-                          "${_data!.assignment!.lectureName!}, ${_data!.assignment!.academicYear!}.dönem ${_data!.assignment!.programName!}, ${_data!.assignment!.lecturerName!}"),
+                      // _taskDetailRow(_data!.assignment!.title!),
+                      // _taskDetailRow(_data!.assignment!.description!),
+                      // _taskDetailRow(
+                      //     "${_data!.assignment!.lectureName!}, ${_data!.assignment!.academicYear!}.dönem ${_data!.assignment!.programName!}, ${_data!.assignment!.lecturerName!}"),
                       Divider(),
                       UgtSectionTitleWidget(title: "Öğrenciler"),
-                      Expanded(child: _taskStudents()),
+                      // Expanded(child: _taskStudents()),
                     ],
                   ),
           ),
@@ -74,17 +73,17 @@ class _StudentsOfTaskPageState extends State<StudentsOfTaskPage> {
     );
   }
 
-  Widget _taskStudents() {
-    return _data!.students!.length == 0
-        ? EmptyListWidget()
-        : ListView.builder(
-            itemBuilder: (context, index) {
-              var d = _data!.students;
-              return _listRow(d![index]);
-            },
-            itemCount: _data!.students!.length,
-          );
-  }
+  // Widget _taskStudents() {
+  //   return _data!.students!.length == 0
+  //       ? EmptyListWidget()
+  //       : ListView.builder(
+  //           itemBuilder: (context, index) {
+  //             var d = _data!.students;
+  //             return _listRow(d![index]);
+  //           },
+  //           itemCount: _data!.students!.length,
+  //         );
+  // }
 
   Widget _listRow(StudentsOfAssignments? item) {
     return Container(
@@ -116,9 +115,9 @@ class _StudentsOfTaskPageState extends State<StudentsOfTaskPage> {
     setState(() {
       _isLoading = true;
     });
-    var data = await UgtBaseNetwork.getStudentOfAssignments(_id!);
+    // var data = await UgtBaseNetwork.getStudentOfAssignments(_id!);
     setState(() {
-      _data = data;
+      // _data = data;
       _isLoading = false;
     });
   }

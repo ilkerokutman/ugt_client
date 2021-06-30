@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:ugt_client/models/assignment.dart';
-import 'package:ugt_client/models/assignment_detail.dart';
 import 'package:ugt_client/models/db_entity.dart';
 import 'package:ugt_client/models/department.dart';
 import 'package:ugt_client/models/faculty.dart';
@@ -182,18 +181,28 @@ class UgtBaseNetwork {
 
   //#region STUDENT
   static Future<StudentDetail> getStudentDetail(String id) async {
-    StudentDetail? detail = StudentDetail();
-    // var student = await getStudent(id);
+    StudentDetail? detail = StudentDetail.strach();
+
+    var student = await getStudent(id);
     var lectures = await getLecturesOfStudent(id);
-    var tasks = await getAssignmentsOfStudent(id);
-    // detail.student = student;
-    detail.lectures = lectures;
-    detail.assingments = tasks;
+    var tasks = await getAssignmentsDetails({"studentId": id});
+    detail.student = student;
+    if (lectures.length > 0) detail.lectures = lectures;
+    if (tasks.length > 0) detail.assingments = tasks;
     return detail;
   }
 
   static Future<List<Student>> getStudents() async {
     var response = await _postWithToken(c.URL_STUDENT_LIST, {});
+    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
+      var list = List<Student>.from(response["data"].map((x) => Student.fromMap(x)));
+      return list;
+    }
+    return <Student>[];
+  }
+
+  static Future<List<Student>> getMyStudents(String lecturerId) async {
+    var response = await _postWithToken(c.URL_STUDENT_LIST, {"lecturerId": lecturerId});
     if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
       var list = List<Student>.from(response["data"].map((x) => Student.fromMap(x)));
       return list;
@@ -243,6 +252,16 @@ class UgtBaseNetwork {
     return <Lecture>[];
   }
 
+  static Future<List<Lecture>> getMyLectures(String lecturerId) async {
+    var response = await _postWithToken(c.URL_LECTURE_LIST, {"lecturerId": lecturerId});
+    if (response["success"] == false) return <Lecture>[];
+    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
+      var list = List<Lecture>.from(response["data"].map((x) => Lecture.fromMap(x)));
+      return list;
+    }
+    return <Lecture>[];
+  }
+
   static Future<List<Lecture>> getLecturesOfStudent(String id) async {
     var response = await _postWithToken(c.URL_LECTURE_LIST, {"studentId": id});
     if (response["success"] == false) return <Lecture>[];
@@ -276,21 +295,19 @@ class UgtBaseNetwork {
   //#endregion
 
   //#region ASSIGNMENT
-  static Future<AssignmentDetail> getStudentOfAssignments(String id) async {
-    AssignmentDetail _assignmentDetail = AssignmentDetail();
-    var assignment = await getAssignment(id);
-    _assignmentDetail.assignment = assignment;
-    var response = await _postWithToken(c.URL_STUDENT_OF_ASSIGNMENT, {"id": id});
-    if (response["success"] == false) return _assignmentDetail;
-    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
-      var list = List<StudentsOfAssignments>.from(response["data"].map((x) => StudentsOfAssignments.fromMap(x)));
-      _assignmentDetail.students = list;
-    }
-    return _assignmentDetail;
-  }
 
   static Future<List<Assignment>> getAssignments({int isPool = 0}) async {
     var response = await _postWithToken(c.URL_ASSIGNMENT_LIST, {"isPool": isPool});
+    if (response["success"] == false) return <Assignment>[];
+    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
+      var list = List<Assignment>.from(response["data"].map((x) => Assignment.fromMap(x)));
+      return list;
+    }
+    return <Assignment>[];
+  }
+
+  static Future<List<Assignment>> getMyAssignments(String lecturerId) async {
+    var response = await _postWithToken(c.URL_ASSIGNMENT_LIST, {"lecturerId": lecturerId, "isPool": 0});
     if (response["success"] == false) return <Assignment>[];
     if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
       var list = List<Assignment>.from(response["data"].map((x) => Assignment.fromMap(x)));
@@ -307,6 +324,16 @@ class UgtBaseNetwork {
       return list;
     }
     return <Assignment>[];
+  }
+
+  static Future<List<AssignmentDetail>> getAssignmentsDetails(Map<String, dynamic> data) async {
+    var response = await _postWithToken(c.URL_ASSIGNMENTS_DETAILS, data);
+    if (response["success"] == false) return <AssignmentDetail>[];
+    if (response["data"] != null && response["data"] is List && response["data"].length > 0) {
+      var list = List<AssignmentDetail>.from(response["data"].map((x) => AssignmentDetail.fromMap(x)));
+      return list;
+    }
+    return <AssignmentDetail>[];
   }
 
   static Future<Assignment?> getAssignment(String id) async {

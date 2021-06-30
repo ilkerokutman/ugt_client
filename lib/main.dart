@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ugt_client/pages/my_lecture_list_page.dart';
+import 'package:ugt_client/pages/my_student_list_page.dart';
+import 'package:ugt_client/pages/my_task_list_page.dart';
 import 'package:ugt_client/pages/student_detail_page.dart';
 import 'package:ugt_client/pages/students_of_task_page.dart';
 
@@ -79,9 +82,9 @@ class _UGTState extends State<UGT> {
         GetPage(name: p.home, page: () => HomePage()),
         //
         GetPage(name: p.myProfile, page: () => MyProfilePage()),
-        GetPage(name: p.myLectures, page: () => MyLecturesPage()),
-        GetPage(name: p.myTasks, page: () => MyTasksPage()),
-        GetPage(name: p.myStudents, page: () => MyStudentsPage()),
+        GetPage(name: p.myLectures, page: () => MyLectureListPage()),
+        GetPage(name: p.myTasks, page: () => MyTaskListPage()),
+        GetPage(name: p.myStudents, page: () => MyStudentListPage()),
         //
         GetPage(name: p.ourLecturers, page: () => OurLecturersPage()),
         GetPage(name: p.ourLectures, page: () => OurLecturesPage()),
